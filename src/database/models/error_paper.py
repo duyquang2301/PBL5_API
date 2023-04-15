@@ -6,7 +6,7 @@ class ErrorPaperModel(db.Model) :
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(88), nullable=False)
     error_description = db.Column(db.String(200), nullable=False)
-    vehicle_id = db.Column(db.Integer, db.ForeignKey("vehicles.id") , unique=False, nullable=False)
+    vehicle_id = db.Column(db.String(12), db.ForeignKey("vehicles.id") , unique=False, nullable=False)
 
     vehicle = db.relationship("VehicleModel", back_populates="error_papers")
 

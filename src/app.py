@@ -12,7 +12,11 @@ from dotenv import load_dotenv
 import pymysql
 pymysql.install_as_MySQLdb()
 
+from api.user import user_route
+
+
 load_dotenv()
+
 
 
 def create_app(db_url = None):
@@ -27,7 +31,6 @@ def create_app(db_url = None):
     app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
 
     app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
-    print(app.config['SQLALCHEMY_DATABASE_URI'])
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
     
@@ -36,7 +39,8 @@ def create_app(db_url = None):
 
     with app.app_context():
         db.create_all()
-    
+
+    api.register_blueprint(user_route)
     return app
 
 
